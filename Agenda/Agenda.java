@@ -12,72 +12,114 @@ import java.util.Scanner;
 
 
 public  class  Agenda{
-    private static Scanner read = new Scanner(System.in);
 
-    private static ArrayList<Contato> list = new ArrayList<Contato>();       
+// Fields
+// ======
     
-    static void add(Contato cnt){ if(!search(cnt.get_name(), 0)) list.add(cnt); }
+    // Cabeçario de contato 
+    static final String head_cnt ="Idx    Contato\n===    =======\n"; 
+    
+    //! Leitura de dados
+    private static Scanner read = new Scanner(System.in);
+    
+    //! Conteiner para contatos
+    private static ArrayList<Contato> list = new ArrayList<Contato>();       
+   
+// Manager
+// =======
+
+    //! Adicionar novo contato unico
+    static void add(Contato cnt){ if(!search(cnt.get_name())) list.add(cnt); }
+    
+    //! Remover contato com seu index
     static boolean del(int idx){ 
-        try{ list.remove(idx); return true;}
+        try{ list.remove(idx); return true;} 
         catch( Exception e ){ e.printStackTrace(); return false; }
     }
-
-    static boolean search(String name,int i){ 
-        return ((i<list.size())?((is_name(name,list.get(i).get_name()))?true:search(name,i+1)):false); 
-    }
     
-    static boolean is_name(String name,String other){return ((name.equals(other))?true:false); }
-
-    static String listar(){
-        String data="";
-        int i=0;
-        for(var cnt : list ) data+= (i++)+" -> "+cnt.get_name()+" "+cnt.get_telp()+"\n";
-        return data;
+    //! Busca contatos existentes
+    static boolean search(String name){ 
+        for(var cnt:list) if(cnt.get_name().equals(name)) return true;
+        return false;
     }
 
-    static int label(){
+    //! Lista um conteudo 
+    static String list_data(boolean opt){return ((opt)?list_cnt(head_cnt, 0):list_task(quest()));}
+
+    //! Listar contatos da agenda
+    static String list_cnt(String inf,int i){
+        for(var cnt:list) inf+=" "+(i++)+"     [ "+cnt.get_name()+" / "+cnt.get_telp()+" ]\n";return inf;
+    }
+
+    //! Listar tarefas de um contato
+    static String list_task(int idx){ return list.get(idx).list_tasks("",0); }
+
+    //! Update contact 
+    static void update(int idx){
+        switch(quest("\n1 -> update name   \n2 -> update telp\n3 -> telp and name \n")){
+            case "1":  list.get(idx).set_name(quest("Nome: "));  break;
+            case "2":  list.get(idx).set_telp(quest("Telp: "));  break;
+            case "3": {list.get(idx).set_name(quest("Nome: "));
+                       list.get(idx).set_telp(quest("Telp: "));} break;
+        }
+    }
+
+    //! new task 
+    static void new_task(int idx){ list.get(idx).new_task(quest("New task: ")); }
+
+    //! remove task 
+    static void del_task(int idx){ list.get(idx).del_task(quest()); }
+
+// Programa
+// ========
+
+    //! Realiza uma questão
+    static String quest(String text){ System.out.print(text); return read.next(); }
+    static int quest(){ System.out.print("Idx: "); return read.nextInt(); }
+
+    //! Exibir a interface de opções
+    static int label(boolean opt){
         System.out.println("\n"
-           +"**************************************\n"
-           +"*************** Agenda ***************\n"
-           +"--------------------------------------\n"
-           +listar()
-           +"--------------------------------------\n"
-           +" 1 -> Cadastrar                       \n"
-           +" 2 -> Remover                         \n"
-           +" 0 -> Sair                            \n"
-           +"**************************************"
+           +"****************************************************\n"
+           +"********************* Agenda ***********************\n"
+           +"____________________________________________________\n"
+           +list_data(opt)
+           +"____________________________________________________\n"
+           +"  1 -> Register          2 -> Remove contact        \n"
+           +"  3 -> Update contact    4 -> List tasks            \n"
+           +"  5 -> New Task          6 -> Remove Task         \n\n"
+           +"                 0 -> Exit                          \n"
+           +"****************************************************"
         );
+        System.out.print("KEY: ");
         return read.nextInt(); 
     }
 
-    static void new_contato(){
-        Contato cnt = new Contato();  
+    //! Cadastra novo contato
+    static void new_contato(){ add(new Contato(quest("Nome: "),quest("Telp: "))); }
 
-        System.out.print("Qual o nome?"); 
-        cnt.set_name(read.next());
-        
-        System.out.print("Qual é o telefone?");
-        cnt.set_telp(read.next());
-        
-        add(cnt);
-    }
+    //! Remove um contato
+    static void  del_contato(){ del(quest()); }
 
-    static void  del_contato(){
-        System.out.println("Qual o numero do contato?"); 
-        del(read.nextInt());
-    }
-
-    static void start(){
-        switch(label()){
-            case 1:new_contato(); break;
-            case 2:del_contato(); break;
+    //! Inicia programa
+    static void start(boolean opt){
+        for (int i = 0; i < 100; ++i) System.out.println();
+        switch(label(opt)){
+            case 1:new_contato();     break;
+            case 2:del_contato();     break;
+            case 3:update(quest());   break;
+            case 4:start(false);      break;
+            case 5:new_task(quest()); break;
+            case 6:del_task(quest()); break;
             case 0:return;
-        }start(); 
+        
+        }
+        start(true); 
     }
 
-
+    // Main
     public static void main(String[] args) {
-        start();   
+        start(true);   
     }
 }
 

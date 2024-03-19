@@ -68,10 +68,13 @@ public  class  Agenda{
     static void new_task(int idx){ list.get(idx).new_task(quest("New task: ")); }
 
     //! remove task 
-    static void del_task(int idx){ list.get(idx).del_task(quest()); }
+    static void del_task(int idx){ System.out.print("Task "); list.get(idx).del_task(quest()); }
 
 // Programa
 // ========
+
+    //! Clear terminal
+    static void clear(){for (int i = 0; i < 100; ++i) System.out.println();}
 
     //! Realiza uma questão
     static String quest(String text){ System.out.print(text); return read.next(); }
@@ -103,12 +106,12 @@ public  class  Agenda{
 
     //! Inicia programa
     static void start(boolean opt){
-        for (int i = 0; i < 100; ++i) System.out.println();
+        clear();
         switch(label(opt)){
             case 1:new_contato();     break;
             case 2:del_contato();     break;
             case 3:update(quest());   break;
-            case 4:start(false);      break;
+            case 4:{start(false);}    break;
             case 5:new_task(quest()); break;
             case 6:del_task(quest()); break;
             case 0:return;

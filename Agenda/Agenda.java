@@ -44,7 +44,7 @@ public  class  Agenda{
     }
 
     //! Lista um conteudo 
-    static String list_data(boolean opt){return ((opt)?list_cnt(head_cnt, 0):list_task(quest()));}
+    static String list_data(int opt){return ((opt>=0)?list_cnt(head_cnt, 0):list_task((-1)*opt));}
 
     //! Listar contatos da agenda
     static String list_cnt(String inf,int i){
@@ -81,7 +81,7 @@ public  class  Agenda{
     static int quest(){ System.out.print("Idx: "); return read.nextInt(); }
 
     //! Exibir a interface de opções
-    static int label(boolean opt){
+    static int label(int opt){
         System.out.println("\n"
            +"****************************************************\n"
            +"********************* Agenda ***********************\n"
@@ -105,24 +105,27 @@ public  class  Agenda{
     static void  del_contato(){ del(quest()); }
 
     //! Inicia programa
-    static void start(boolean opt){
+    static void start(int opt){
         clear();
         switch(label(opt)){
-            case 1:new_contato();     break;
-            case 2:del_contato();     break;
-            case 3:update(quest());   break;
-            case 4:{start(false);}    break;
-            case 5:new_task(quest()); break;
-            case 6:del_task(quest()); break;
+            case 1:new_contato();       break;
+            case 2:del_contato();       break;
+            case 3:update(quest());     break;
+            case 4:start((-1)*quest()); break;
+            case 5:new_task(quest());   break;
+            case 6:del_task(quest());   break;
             case 0:return;
         
         }
-        start(true); 
+        start(0); 
     }
+    
+    //! Init padrão
+    static void start(){ try{ start(0); } catch(Exception e){ start(); } }
 
     // Main
     public static void main(String[] args) {
-        start(true);   
+        start();   
     }
 }
 

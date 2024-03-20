@@ -11,14 +11,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
+
 public  class  Agenda{
 
 // Fields
 // ======
-    
-    // Cabeçario de contato 
-    static final String head_cnt ="Idx    Contato\n===    =======\n"; 
-    
     //! Leitura de dados
     private static Scanner read = new Scanner(System.in);
     
@@ -27,15 +24,11 @@ public  class  Agenda{
    
 // Manager
 // =======
-
     //! Adicionar novo contato unico
-    static void add(Contato cnt){ if(!search(cnt.get_name())) list.add(cnt); }
+    static void add(Contato cnt){if(!search(cnt.get_name()))list.add(cnt);}
     
     //! Remover contato com seu index
-    static boolean del(int idx){ 
-        try{ list.remove(idx); return true;} 
-        catch( Exception e ){ e.printStackTrace(); return false; }
-    }
+    static void del(int idx){ list.remove(idx); }
     
     //! Busca contatos existentes
     static boolean search(String name){ 
@@ -44,7 +37,9 @@ public  class  Agenda{
     }
 
     //! Lista um conteudo 
-    static String list_data(int opt){return ((opt>=0)?list_cnt(head_cnt, 0):list_task((-1)*opt));}
+    static String list_data(int opt){
+        return ((opt>0)?list_cnt("Idx    Contato\n===    =======\n", 0):list_task((-1)*opt));
+    }
 
     //! Listar contatos da agenda
     static String list_cnt(String inf,int i){
@@ -72,7 +67,6 @@ public  class  Agenda{
 
 // Programa
 // ========
-
     //! Clear terminal
     static void clear(){for (int i = 0; i < 100; ++i) System.out.println();}
 
@@ -102,10 +96,10 @@ public  class  Agenda{
     static void new_contato(){ add(new Contato(quest("Nome: "),quest("Telp: "))); }
 
     //! Remove um contato
-    static void  del_contato(){ del(quest()); }
+    static void  del_contato(){del(quest()); }
 
     //! Inicia programa
-    static void start(int opt){
+    static boolean start(int opt){
         clear();
         switch(label(opt)){
             case 1:new_contato();       break;
@@ -114,14 +108,17 @@ public  class  Agenda{
             case 4:start((-1)*quest()); break;
             case 5:new_task(quest());   break;
             case 6:del_task(quest());   break;
-            case 0:return;
+            case 0:return false;
         
         }
-        start(0); 
+        return start(1); 
     }
     
     //! Init padrão
-    static void start(){ try{ start(0); } catch(Exception e){ start(); } }
+    static boolean start(){
+        try{ start(1); return true; } 
+        catch(Exception e){return (quest(e.getMessage()+" ....Continui[y/n]? ").equals("y"))?start():false;} 
+    }
 
     // Main
     public static void main(String[] args) {

@@ -18,4 +18,4 @@ clear:
 
 # Execute program:
 run: 
-	java -cp ".:/bin/Agenda" Agenda
+	java -cp ".:bin/" Agenda

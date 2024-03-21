@@ -51,7 +51,7 @@ public class Contato{
     //! List tasks:
     String list_tasks(String inf,int i){ 
        inf= "[ "+name+" ]\n";
-       for(var task:tasks) inf+=(i++)+" -> [ "+task+" ]\n"; return inf; 
+       for(var task:tasks) inf+=Clr.gn+(i++)+Clr.df+" -> [ "+task+" ]\n"; return inf; 
     }
 }
 

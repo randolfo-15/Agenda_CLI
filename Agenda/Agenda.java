@@ -41,12 +41,13 @@ public  class  Agenda{
 
     //! Lista um conteudo 
     static String list_data(int opt){
-        return ((opt>0)?list_cnt("Idx    Contato\n===    =======\n", 0):list_task((-1)*opt));
+        return ((opt>0)?list_cnt(Clr.be+"Idx    Contato\n===    ======="+Clr.df+"\n",0):list_task((-1)*opt));
     }
 
     //! Listar contatos da agenda
     static String list_cnt(String inf,int i){
-        for(var cnt:list) inf+=" "+(i++)+"     [ "+cnt.get_name()+" / "+cnt.get_telp()+" ]\n";return inf;
+        for(var cnt:list) inf+=Clr.gn+" "+(i++)+Clr.df+"     [ "+cnt.get_name()+" / "+cnt.get_telp()+" ]\n";
+        return inf;
     }
 
     //! Listar tarefas de um contato
@@ -66,7 +67,7 @@ public  class  Agenda{
     static void new_task(int idx){ list.get(idx).new_task(quest("New task: ")); }
 
     //! remove task 
-    static void del_task(int idx){ System.out.print("Task "); list.get(idx).del_task(quest()); }
+    static void del_task(int idx){list.get(idx).del_task(quest(0)); }
 
 // Programa
 // ========
@@ -74,22 +75,23 @@ public  class  Agenda{
     static void clear(){ System.out.print("\033\143"); }
 
     //! Realiza uma questão
-    static String quest(String text){ System.out.print(text); return read.next(); }
-    static int quest(){ System.out.print("Idx: "); return read.nextInt(); }
+    static String quest(String text){ System.out.print(text); return read.next();    }
+    static int quest(){ System.out.print("Contact Idx: ");    return read.nextInt(); }
+    static int quest(int e){ System.out.print("Task Idx: ");  return read.nextInt(); }
 
     //! Exibir a interface de opções
     static int label(int opt){
         System.out.println("\n"
-           +"****************************************************\n"
-           +"********************* Agenda ***********************\n"
-           +"____________________________________________________\n"
+           +Clr.yw+"****************************************************"+Clr.df+"\n"
+           +Clr.yw+"*********************"+Clr.be+" Agenda "+Clr.yw+"***********************"+Clr.df+"\n"
+           +Clr.yw+"____________________________________________________"+Clr.yw+"\n"
            +list_data(opt)
-           +"____________________________________________________\n"
-           +"  1 -> Register          2 -> Remove contact        \n"
-           +"  3 -> Update contact    4 -> List tasks            \n"
-           +"  5 -> New Task          6 -> Remove Task         \n\n"
-           +"                 0 -> Exit                          \n"
-           +"****************************************************"
+           +Clr.yw+"____________________________________________________"+Clr.yw+"\n"
+           +Clr.gn+"  1"+Clr.rd+" -> Register          "+Clr.gn+"2"+Clr.rd+" -> Remove contact        \n"
+           +Clr.gn+"  3"+Clr.rd+" -> Update contact    "+Clr.gn+"4"+Clr.rd+" -> List tasks            \n"
+           +Clr.gn+"  5"+Clr.rd+" -> New Task          "+Clr.gn+"6"+Clr.rd+" -> Remove Task         \n\n"
+           +Clr.gn+"                 0 -> Exit                          \n"+Clr.df
+           +Clr.yw+"****************************************************"+Clr.df
         );
         System.out.print("KEY: ");
         return read.nextInt(); 

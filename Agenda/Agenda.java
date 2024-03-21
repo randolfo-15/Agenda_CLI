@@ -25,7 +25,10 @@ public  class  Agenda{
 // Manager
 // =======
     //! Adicionar novo contato unico
-    static void add(Contato cnt){if(!search(cnt.get_name()))list.add(cnt);}
+    static void add(Contato cnt){
+        if(!search(cnt.get_name()))list.add(cnt);
+        else if(quest("Existing contact, try again [y/n]? ").equals("y")) new_contato();
+    }
     
     //! Remover contato com seu index
     static void del(int idx){ list.remove(idx); }
@@ -68,7 +71,7 @@ public  class  Agenda{
 // Programa
 // ========
     //! Clear terminal
-    static void clear(){for (int i = 0; i < 100; ++i) System.out.println();}
+    static void clear(){ System.out.print("\033\143"); }
 
     //! Realiza uma questão
     static String quest(String text){ System.out.print(text); return read.next(); }

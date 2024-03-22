@@ -5,8 +5,9 @@
 # ======================================
 all: program# Programa Main 
 
-files = ./src/*.java   #  path sources
-binarys= ./bin/*.class #  path binarys
+files = ./src/*.java         #  path sources
+binarys= ./bin/*.class       #  path binarys
+manifest= ./bin/MANIFEST.MF  #  path manifest file
 
 # Build default:
 program: $(files)
@@ -19,3 +20,7 @@ clear:
 # Execute program:
 run: 
 	java -cp ".:bin/" Agenda
+
+# .Jar:
+jar: 
+	jar cfm Agenda.jar $(manifest) $(binarys)

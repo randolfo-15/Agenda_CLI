@@ -1,12 +1,6 @@
-
-<div style="text-align:center">
-
 # Agenda CLI
 
 ![Agenda](image/agenda.png)
-
-</div>
-
 
 ## Proposta
 

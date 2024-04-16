@@ -1,11 +1,11 @@
-/*!
+/*!**************************************************************
  *  Agenda
  * ========
  * @author : Randolfo A Gonçalves
  * @file   : Contato.java
  * @brief  : Class dedicada a Gerenciar dados  da Agenda
  * @since  : 18-03-24
- */
+ ****************************************************************/
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -41,12 +41,12 @@ public  class  Agenda{
 
     //! Lista um conteudo 
     static String list_data(int opt){
-        return ((opt>0)?list_cnt(Clr.be+"Idx    Contato\n===    ======="+Clr.df+"\n",0):list_task((-1)*opt));
+        return ((opt>0)?list_cnt(Clr.be+"Idx    Contato\n\t===    ======="+Clr.df+"\n",0):list_task((-1)*opt));
     }
 
     //! Listar contatos da agenda
     static String list_cnt(String inf,int i){
-        for(var cnt:list) inf+=Clr.gn+" "+(i++)+Clr.df+"     [ "+cnt.get_name()+" / "+cnt.get_telp()+" ]\n";
+        for(var cnt:list) inf+="\t"+Clr.gn+" "+(i++)+Clr.df+"     [ "+cnt.get_name()+" / "+cnt.get_telp()+" ]\n";
         return inf;
     }
 
@@ -55,7 +55,7 @@ public  class  Agenda{
 
     //! Update contact 
     static void update(int idx){
-        switch(quest("\n1 -> update name   \n2 -> update telp\n3 -> telp and name \n")){
+        switch(quest("\n\t1 -> update name   \n\t2 -> update telp\n\t3 -> telp and name \n\tKEY: ")){
             case "1":  list.get(idx).set_name(quest("Nome: "));  break;
             case "2":  list.get(idx).set_telp(quest("Telp: "));  break;
             case "3": {list.get(idx).set_name(quest("Nome: "));
@@ -75,25 +75,38 @@ public  class  Agenda{
     static void clear(){ System.out.print("\033\143"); }
 
     //! Realiza uma questão
-    static String quest(String text){ System.out.print(text); return read.next();    }
-    static int quest(){ System.out.print("Contact Idx: ");    return read.nextInt(); }
-    static int quest(int e){ System.out.print("Task Idx: ");  return read.nextInt(); }
+    static String quest(String text){ 
+        System.out.print("\t"+text); 
+        return read.nextLine();
+    }
+    
+    static int quest(){ 
+        System.out.print("\tContact Idx: ");    
+        int exit=read.nextInt(); 
+        read.nextLine(); 
+        return exit;
+    }
+    
+    static int quest(int e){ 
+        System.out.print("\tTask Idx: ");  
+        return read.nextInt(); 
+    }
 
     //! Exibir a interface de opções
     static int label(int opt){
         System.out.println("\n"
-           +Clr.yw+"****************************************************"+Clr.df+"\n"
-           +Clr.yw+"*********************"+Clr.be+" Agenda "+Clr.yw+"***********************"+Clr.df+"\n"
-           +Clr.yw+"____________________________________________________"+Clr.yw+"\n"
-           +list_data(opt)
-           +Clr.yw+"____________________________________________________"+Clr.yw+"\n"
-           +Clr.gn+"  1"+Clr.rd+" -> Register          "+Clr.gn+"2"+Clr.rd+" -> Remove contact        \n"
-           +Clr.gn+"  3"+Clr.rd+" -> Update contact    "+Clr.gn+"4"+Clr.rd+" -> List tasks            \n"
-           +Clr.gn+"  5"+Clr.rd+" -> New Task          "+Clr.gn+"6"+Clr.rd+" -> Remove Task         \n\n"
-           +Clr.gn+"                 0 -> Exit                          \n"+Clr.df
-           +Clr.yw+"****************************************************"+Clr.df
+           +Clr.yw+"\t****************************************************"+Clr.df+"\n"
+           +Clr.yw+"\t*********************"+Clr.be+" Agenda "+Clr.yw+"***********************"+Clr.df+"\n"
+           +Clr.yw+"\t____________________________________________________"+Clr.yw+"\n"
+           +"\t"+list_data(opt)
+           +Clr.yw+"\t____________________________________________________"+Clr.yw+"\n"
+           +Clr.gn+"\t  1"+Clr.rd+" -> Register          "+Clr.gn+"2"+Clr.rd+" -> Remove contact        \n"
+           +Clr.gn+"\t  3"+Clr.rd+" -> Update contact    "+Clr.gn+"4"+Clr.rd+" -> List tasks            \n"
+           +Clr.gn+"\t  5"+Clr.rd+" -> New Task          "+Clr.gn+"6"+Clr.rd+" -> Remove Task         \n\n"
+           +Clr.gn+"\t                 0 -> Exit                          \n"+Clr.df
+           +Clr.yw+"\t****************************************************"+Clr.df
         );
-        System.out.print("KEY: ");
+        System.out.print("\tKEY: ");
         return read.nextInt(); 
     }
 
@@ -107,13 +120,16 @@ public  class  Agenda{
     static boolean start(int opt){
         clear();
         switch(label(opt)){
-            case 1:new_contato();       break;
+            case 1:{
+                read.nextLine();
+                new_contato();       
+            }break;
             case 2:del_contato();       break;
             case 3:update(quest());     break;
             case 4:start((-1)*quest()); break;
             case 5:new_task(quest());   break;
             case 6:del_task(quest());   break;
-            case 0:return false;
+            case 0:System.exit(0);
         
         }
         return start(1); 

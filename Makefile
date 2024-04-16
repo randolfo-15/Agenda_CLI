@@ -6,12 +6,12 @@
 all: program# Programa Main 
 
 files = ./src/*.java         #  path sources
-binarys= ./bin/*.class       #  path binarys
-manifest= ./bin/MANIFEST.MF  #  path manifest file
+binarys= ./.bin/*.class      #  path binarys
+manifest= ./src/MANIFEST.MF  #  path manifest file
 
 # Build default:
 program: $(files)
-	javac -d ./bin $(files) 
+	javac -d .bin $(files) 
 
 # Clear solution: 
 clear: 
@@ -19,7 +19,7 @@ clear:
 
 # Execute program:
 run: 
-	java -cp ".:bin/" Agenda
+	java -cp ".:.bin/" Agenda
 
 # .Jar:
 jar: 
